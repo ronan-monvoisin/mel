@@ -133,15 +133,12 @@ class Mel {
   }
 }
 
-function mel(type: string, options: object = {}, children: Array<Element | Mel> = []): Element {
+function mel(type: string, options: object = {}, children: string|Array<Element | Mel> = ''): Element {
   if (typeof type !== 'string') {
     throw new Error('The first argument must be a string representing the element type.');
   }
   if (typeof options !== 'object') {
     throw new Error('The second argument must be an object containing options.');
-  }
-  if (!Array.isArray(children)) {
-    throw new Error('The third argument must be an array of child elements or Mel instances.');
   }
 
   const element = new Mel(type);
@@ -156,7 +153,9 @@ function mel(type: string, options: object = {}, children: Array<Element | Mel> 
     }
   }
 
-  if (children.length > 0) {
+  if (typeof children === 'string') {
+    element.getElement().textContent = children;
+  } else {
     element.children(children);
   }
 
